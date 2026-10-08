@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday, Janeey!</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --plum: #2D1B4E;
+    --pink: #FF3E7F;
+    --yellow: #FFC93C;
+    --sky: #4EA8DE;
+    --mint: #3ED9B0;
+    --cream: #FFF7ED;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: var(--plum);
+    color: var(--cream);
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ---------- Floating balloons background ---------- */
+  .balloon-field {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    overflow: hidden;
+    z-index: 0;
+  }
+  .balloon {
+    position: absolute;
+    bottom: -200px;
+    width: 60px;
+    height: 74px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    opacity: 0.85;
+    animation: float-up linear infinite;
+  }
+  .balloon::after {
+    content: '';
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    width: 1.5px;
+    height: 40px;
+    background: rgba(255,247,237,0.4);
+  }
+  @keyframes float-up {
+    0% { transform: translateY(0) translateX(0) rotate(-4deg); }
+    50% { transform: translateY(-55vh) translateX(30px) rotate(4deg); }
+    100% { transform: translateY(-115vh) translateX(-20px) rotate(-4deg); }
+  }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 24px;
+    z-index: 1;
+  }
+
+  .eyebrow {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 15px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--yellow);
+    margin-bottom: 18px;
+    font-weight: 700;
+  }
+
+  .hero h1 {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: clamp(48px, 12vw, 118px);
+    line-height: 1;
+    color: var(--cream);
+    text-shadow: 4px 4px 0 var(--pink), 8px 8px 0 rgba(0,0,0,0.15);
+    margin-bottom: 8px;
+  }
+
+  .hero .name {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: clamp(56px, 15vw, 150px);
+    line-height: 1;
+    background: linear-gradient(90deg, var(--pink), var(--yellow), var(--mint), var(--sky));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: rainbow-shift 6s ease-in-out infinite;
+    margin-top: 6px;
+  }
+
+  @keyframes rainbow-shift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .hero p.sub {
+    margin-top: 24px;
+    font-size: clamp(16px, 2.4vw, 20px);
+    color: rgba(255,247,237,0.85);
+    max-width: 480px;
+  }
+
+  .confetti-btn {
+    margin-top: 40px;
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--plum);
+    background: var(--yellow);
+    border: none;
+    padding: 16px 36px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #C99418;
+    transition: transform 0.08s ease;
+  }
+  .confetti-btn:active {
+    transform: translateY(6px);
+    box-shadow: 0 0 0 #C99418;
+  }
+
+  .hero-buttons {
+    margin-top: 40px;
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .hero-buttons .confetti-btn { margin-top: 0; }
+
+  .music-btn {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--cream);
+    background: transparent;
+    border: 2px solid rgba(255,247,237,0.4);
+    padding: 14px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: border-color 0.2s ease, transform 0.08s ease;
+  }
+  .music-btn:hover {
+    border-color: var(--mint);
+  }
+  .music-btn:active {
+    transform: translateY(2px);
+  }
+  .music-btn.playing {
+    border-color: var(--mint);
+    color: var(--mint);
+  }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 10px;
+    font-size: 13px;
+    color: rgba(255,247,237,0.55);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  /* ---------- Message section ---------- */
+  .message {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 100px 28px;
+    text-align: center;
+  }
+
+  .message .card-label {
+    font-family: 'Baloo 2', sans-serif;
+    color: var(--mint);
+    font-size: 14px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 24px;
+    font-weight: 700;
+  }
+
+  .message p {
+    font-size: clamp(20px, 3vw, 28px);
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  .message p + p { margin-top: 22px; }
+
+  .signature {
+    margin-top: 48px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 24px;
+    color: var(--pink);
+    font-weight: 700;
+  }
+
+  /* ---------- Reasons grid ---------- */
+  .reasons {
+    position: relative;
+    z-index: 1;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 60px 28px 120px;
+  }
+
+  .reasons h2 {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    font-size: clamp(30px, 5vw, 42px);
+    text-align: center;
+    margin-bottom: 56px;
+    color: var(--cream);
+  }
+
+  .reasons h2 span { color: var(--yellow); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 22px;
+  }
+
+  .reason-card {
+    background: rgba(255,247,237,0.06);
+    border: 1.5px solid rgba(255,247,237,0.14);
+    border-radius: 18px;
+    padding: 28px 24px;
+    transition: transform 0.2s ease, background 0.2s ease;
+  }
+
+  .reason-card:hover {
+    transform: translateY(-6px);
+    background: rgba(255,247,237,0.1);
+  }
+
+  .reason-card .emoji {
+    font-size: 32px;
+    margin-bottom: 14px;
+    display: block;
+  }
+
+  .reason-card h3 {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 18px;
+    margin-bottom: 8px;
+    color: var(--sky);
+  }
+
+  .reason-card p {
+    font-size: 14.5px;
+    color: rgba(255,247,237,0.75);
+    line-height: 1.5;
+  }
+
+  /* ---------- Footer ---------- */
+  footer {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 50px 24px 60px;
+  }
+
+  footer .cake {
+    font-size: 44px;
+    margin-bottom: 14px;
+  }
+
+  footer p {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--cream);
+  }
+
+  footer span {
+    display: block;
+    margin-top: 6px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 13px;
+    color: rgba(255,247,237,0.5);
+  }
+  
+  .birthday-photo{
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  object-fit: cover;
+  object-position: top;
+  border: 5px solid var(--yellow);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  margin: 24px auto;
+  display: block;
+  }
+
+  /* ---------- Confetti canvas ---------- */
+  #confettiCanvas {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 50;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .balloon, .hero .name { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="balloon-field" id="balloonField"></div>
+<canvas id="confettiCanvas"></canvas>
+
+<section class="hero">
+  <div class="eyebrow">November 7, 2026 · Today only belongs to you.</div>
+  <h1>Happy Birthday</h1>
+  <div class="name">Janeey</div>
+  <img src="Janeey.jpg" alt="My Photo" class="birthday-photo">
+  
+  <p class="sub">Another year, another reason to celebrate you. Hit the button, it's your day.</p>
+  <div class="hero-buttons">
+    <button class="confetti-btn" id="confettiBtn">🎉 Launch confetti</button>
+    <button class="music-btn" id="musicBtn">🔇 Play music</button>
+  </div>
+  <div class="scroll-hint">↓ scroll for the good stuff</div>
+</section>
+
+<section class="message">
+  <div class="card-label">A little note for you</div>
+  <p>Janeey, I don't have a decade of memories to look back on with you, but our chats have genuinely become one of my favorite things — the laughs, the emojis, the jokes and some other stuff that we talk about😂 Especially when you became my wife 😂. So today, I just want to say: happy birthday, and here's to way more of that energy ahead. 🎉</p>
+  <p>Wishing you more days of happiness and God's grace, and more years of our friendship.</p>
+  <div class="signature">Happy Birthday, Janeey. 🎈</div>
+</section>
+
+<section class="reasons">
+  <h2>A few things I'm <span>glad about</span></h2>
+  <div class="grid">
+    <div class="reason-card">
+      <span class="emoji">🎒</span>
+      <h3>Class 8 memories</h3>
+      <p>The different titles that you hold in my life: former classmate back in class eight, my former headgirl 😁, all this shows that our friendship did not just start the other day but it has been there although we did not talk that much back in primary school.</p>
+    </div>
+    <div class="reason-card">
+      <span class="emoji">💬</span>
+      <h3>Picking it back up</h3>
+      <p>Although we did not talk almost at all after primary school throughout our high school but I'm glad of how we started the talks again and now the vibe is superb. Sometimes I just go through the chats and just laugh alone 😂. Just happy for that.</p>
+    </div>
+    <div class="reason-card">
+      <span class="emoji">😂</span>
+      <h3>Your vibe in chats😂</h3>
+      <p>Every chat comes loaded with laughing emojis, somehow you make texting feel like actually laughing out loud. And also the way you play along in some of un serious stuffs e.g. the one of marriage was such a good experience.😂😂</p>
+    </div>
+    <div class="reason-card">
+      <span class="emoji">🔮</span>
+      <h3>More to come</h3>
+      <p>There is a lot more things that I can say but lets preserve that for another time😁. Anyways what I wish for is that our friendship to grow even more and when we have the time, we share even more memories.</p>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="cake">🎂</div>
+  <p>Here's to you, Janeey.</p>
+  <p>From you friend (Former Husband 😁), Lewis. </p>
+  <span>Made with love for your big day. Wishing you a happy happy birthday to you and more years of happiness, joy and of God's Blessings and more memories together.</span>
+</footer>
+
+<script>
+// ---------- Balloons ----------
+const balloonColors = ['#FF3E7F', '#FFC93C', '#4EA8DE', '#3ED9B0'];
+const field = document.getElementById('balloonField');
+const balloonCount = 10;
+for (let i = 0; i < balloonCount; i++) {
+  const b = document.createElement('div');
+  b.className = 'balloon';
+  const color = balloonColors[i % balloonColors.length];
+  b.style.background = `radial-gradient(circle at 30% 30%, ${lighten(color)}, ${color})`;
+  b.style.left = (Math.random() * 96) + 'vw';
+  b.style.animationDuration = (14 + Math.random() * 10) + 's';
+  b.style.animationDelay = (Math.random() * 14) + 's';
+  const scale = 0.6 + Math.random() * 0.7;
+  b.style.transform = `scale(${scale})`;
+  field.appendChild(b);
+}
+function lighten(hex) {
+  return hex; // simple, keeps gradient subtle via alpha in radial stop
+}
+
+// ---------- Confetti ----------
+const canvas = document.getElementById('confettiCanvas');
+const ctx = canvas.getContext('2d');
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+let particles = [];
+const confettiColors = ['#FF3E7F', '#FFC93C', '#4EA8DE', '#3ED9B0', '#FFF7ED'];
+
+function burst(originX, originY, count = 140) {
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: originX,
+      y: originY,
+      vx: (Math.random() - 0.5) * 14,
+      vy: Math.random() * -14 - 4,
+      gravity: 0.35 + Math.random() * 0.15,
+      size: 5 + Math.random() * 6,
+      color: confettiColors[Math.floor(Math.random() * confettiColors.length)],
+      rotation: Math.random() * 360,
+      rotSpeed: (Math.random() - 0.5) * 12,
+      life: 0,
+      maxLife: 130 + Math.random() * 50,
+      shape: Math.random() > 0.5 ? 'rect' : 'circle'
+    });
+  }
+}
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  particles.forEach(p => {
+    p.vy += p.gravity * 0.15;
+    p.x += p.vx;
+    p.y += p.vy;
+    p.rotation += p.rotSpeed;
+    p.life++;
+
+    ctx.save();
+    ctx.translate(p.x, p.y);
+    ctx.rotate(p.rotation * Math.PI / 180);
+    ctx.globalAlpha = Math.max(0, 1 - p.life / p.maxLife);
+    ctx.fillStyle = p.color;
+    if (p.shape === 'rect') {
+      ctx.fillRect(-p.size / 2, -p.size / 4, p.size, p.size / 2);
+    } else {
+      ctx.beginPath();
+      ctx.arc(0, 0, p.size / 2.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    ctx.restore();
+  });
+  particles = particles.filter(p => p.life < p.maxLife && p.y < canvas.height + 50);
+  requestAnimationFrame(animate);
+}
+animate();
+
+const btn = document.getElementById('confettiBtn');
+btn.addEventListener('click', () => {
+  const rect = btn.getBoundingClientRect();
+  burst(rect.left + rect.width / 2, rect.top + rect.height / 2, 160);
+});
+
+// gentle auto burst on load
+window.addEventListener('load', () => {
+  setTimeout(() => burst(window.innerWidth / 2, window.innerHeight / 3, 100), 500);
+});
+
+// ---------- Background music (original, generated, no copyrighted material) ----------
+let audioCtx = null;
+let musicPlaying = false;
+let musicTimeouts = [];
+let masterGain = null;
+
+// Simple cheerful original melody, written as [note, beat-length] pairs.
+// Note names map to frequencies below; 'r' = rest.
+const melody = [
+  ['C5', 0.5], ['E5', 0.5], ['G5', 0.5], ['E5', 0.5],
+  ['F5', 0.5], ['A5', 0.5], ['G5', 1],
+  ['E5', 0.5], ['G5', 0.5], ['C6', 0.5], ['G5', 0.5],
+  ['A5', 0.5], ['F5', 0.5], ['E5', 1],
+  ['D5', 0.5], ['F5', 0.5], ['A5', 0.5], ['G5', 0.5],
+  ['E5', 0.5], ['C5', 0.5], ['D5', 1],
+  ['C5', 0.5], ['E5', 0.5], ['G5', 0.5], ['C6', 0.5],
+  ['G5', 0.5], ['E5', 0.5], ['C5', 1.5],
+];
+
+const noteFreq = {
+  'C5': 523.25, 'D5': 587.33, 'E5': 659.25, 'F5': 698.46,
+  'G5': 783.99, 'A5': 880.00, 'B5': 987.77, 'C6': 1046.50
+};
+
+const beatDuration = 0.34; // seconds per beat unit
+
+function playNote(freq, startTime, duration) {
+  const osc = audioCtx.createOscillator();
+  const noteGain = audioCtx.createGain();
+  osc.type = 'sine';
+  osc.frequency.value = freq;
+  osc.connect(noteGain);
+  noteGain.connect(masterGain);
+
+  const attack = 0.02;
+  const release = duration * 0.5;
+  noteGain.gain.setValueAtTime(0, startTime);
+  noteGain.gain.linearRampToValueAtTime(0.22, startTime + attack);
+  noteGain.gain.linearRampToValueAtTime(0, startTime + duration - 0.01);
+
+  osc.start(startTime);
+  osc.stop(startTime + duration);
+}
+
+function scheduleLoop() {
+  if (!musicPlaying) return;
+  let t = audioCtx.currentTime + 0.05;
+  const loopStart = t;
+  let totalBeats = 0;
+
+  melody.forEach(([note, beats]) => {
+    const dur = beats * beatDuration;
+    if (note !== 'r') {
+      playNote(noteFreq[note], t, dur * 0.92);
+    }
+    t += dur;
+    totalBeats += beats;
+  });
+
+  const loopLength = totalBeats * beatDuration;
+  const timeoutId = setTimeout(() => {
+    if (musicPlaying) scheduleLoop();
+  }, loopLength * 1000);
+  musicTimeouts.push(timeoutId);
+}
+
+function startMusic() {
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = 0.5;
+    masterGain.connect(audioCtx.destination);
+  }
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  musicPlaying = true;
+  scheduleLoop();
+}
+
+function stopMusic() {
+  musicPlaying = false;
+  musicTimeouts.forEach(id => clearTimeout(id));
+  musicTimeouts = [];
+}
+
+const musicBtn = document.getElementById('musicBtn');
+musicBtn.addEventListener('click', () => {
+  if (musicPlaying) {
+    stopMusic();
+    musicBtn.textContent = '🔇 Play music';
+    musicBtn.classList.remove('playing');
+  } else {
+    startMusic();
+    musicBtn.textContent = '🔊 Pause music';
+    musicBtn.classList.add('playing');
+  }
+});
+</script>
+
+</body>
+</html>
