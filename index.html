@@ -272,6 +272,110 @@
     color: rgba(255,247,237,0.75);
     line-height: 1.5;
   }
+  
+.wish-section {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 60px 28px 80px;
+}
+
+.wish-section h2 {
+  font-family: 'Baloo 2', sans-serif;
+  font-weight: 800;
+  font-size: clamp(30px, 5vw, 42px);
+  color: var(--cream);
+  text-shadow: 3px 3px 0 var(--pink);
+  margin-bottom: 8px;
+}
+
+.wish-sub {
+  font-size: 14px;
+  color: rgba(255,247,237,0.6);
+  margin-bottom: 50px;
+}
+
+.cake {
+  position: relative;
+  width: 220px;
+  margin: 0 auto;
+}
+
+.candles {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: -4px;
+}
+
+.candle {
+  width: 8px;
+  height: 36px;
+  background: var(--yellow);
+  border-radius: 2px;
+  position: relative;
+  cursor: pointer;
+}
+
+.flame {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 18px;
+  background: radial-gradient(circle, #FFEE99 0%, #FF9A3C 70%, transparent 100%);
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  animation: flicker 0.4s ease-in-out infinite alternate;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+@keyframes flicker {
+  0% { transform: translateX(-50%) scale(1); }
+  100% { transform: translateX(-50%) scale(0.85) rotate(-3deg); }
+}
+
+.candle[data-lit="false"] .flame {
+  opacity: 0;
+  transform: translateX(-50%) scale(0);
+}
+
+.cake-top {
+  width: 220px;
+  height: 36px;
+  background: var(--pink);
+  border-radius: 14px 14px 0 0;
+}
+
+.cake-middle {
+  width: 220px;
+  height: 18px;
+  background: var(--cream);
+}
+
+.cake-base {
+  width: 220px;
+  height: 50px;
+  background: var(--sky);
+  border-radius: 0 0 14px 14px;
+}
+
+.wish-message {
+  margin-top: 36px;
+  font-family: 'Baloo 2', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--mint);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.wish-message.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
   /* ---------- Footer ---------- */
   footer {
@@ -431,6 +535,22 @@
 	<img src="img3.jpg" alt="My Photo">
  </div>
 </section> 
+
+<section class="wish-section">
+  <h2>Make a wish</h2>
+  <p class="wish-sub">Click each candle to blow it out</p>
+  <div class="cake">
+    <div class="candles">
+      <div class="candle" data-lit="true"><div class="flame"></div></div>
+      <div class="candle" data-lit="true"><div class="flame"></div></div>
+      <div class="candle" data-lit="true"><div class="flame"></div></div>
+    </div>
+    <div class="cake-top"></div>
+    <div class="cake-middle"></div>
+    <div class="cake-base"></div>
+  </div>
+  <p class="wish-message" id="wishMessage">Your wish just came true. 🎉</p>
+</section>
 	
 <footer>
   <div class="cake">🎂</div>
@@ -459,6 +579,23 @@ for (let i = 0; i < balloonCount; i++) {
 function lighten(hex) {
   return hex; // simple, keeps gradient subtle via alpha in radial stop
 }
+
+const candles = document.querySelectorAll('.candle');
+let litCount = candles.length;
+
+candles.forEach(candle => {
+  candle.addEventListener('click', () => {
+    if (candle.dataset.lit === 'false') return;
+    candle.dataset.lit = 'false';
+    litCount--;
+
+    if (litCount === 0) {
+      const rect = candle.getBoundingClientRect();
+      burst(rect.left, rect.top, 120);
+      document.getElementById('wishMessage').classList.add('show');
+    }
+  });
+});
 
 // ---------- Confetti ----------
 const canvas = document.getElementById('confettiCanvas');
