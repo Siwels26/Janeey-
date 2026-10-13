@@ -313,6 +313,45 @@
   margin: 24px auto;
   display: block;
   }
+  
+  .gallery{
+  position:relative;
+  z-index:1;
+  max-width:920px;
+  margin:0 auto;
+  padding: 40px 28px 100px;
+  text-align:center;
+  }
+  
+  .gallery h2{
+  font.family:'Baloo 2', sans-serif;
+  font-weight:800;
+  font-size: clamp(28px, 4vw, 38px);
+  margin-bottom:40px;
+  text-shadow: 4px 4px 0 var(--pink), 8px 8px 0 rgba(0,0,0,0.15);
+  color:var(--yellow);
+  }
+  
+  .gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+  gap:16px;
+  }
+  
+  .gallery-grid img{
+  width: 100%;
+  height: 220px;
+  object-fit:cover;
+  border-radius:14px;
+  border:3px solid rgba(255,247,237,0.2);
+  box-shadow:0 6px 18px rgba(0,0,0,0.2)
+  transition:transform 0.2s ease;
+  }
+  
+  .gallery-grid img:hover{
+  transform:scale(1.03);
+  }
+  
 
   /* ---------- Confetti canvas ---------- */
   #confettiCanvas {
@@ -348,13 +387,13 @@
 
 <section class="message">
   <div class="card-label">A little note for you</div>
-  <p>Janeey, I don't have a decade of memories to look back on with you, but our chats have genuinely become one of my favorite things — the laughs, the emojis, the jokes and some other stuff that we talk about😂 Especially when you became my wife 😂. So today, I just want to say: happy birthday, and here's to way more of that energy ahead. 🎉</p>
+  <p>Janeey, I don't have a decade of memories to look back on with you, but the ones that we have had have turned out to be amaizing and our chats have genuinely become one of my favorite things — the laughs, the emojis, the jokes and some other stuff that we talk about😂 Especially when you became my wife 😂. So today, I just want to say: happy birthday, and here's to way more of that energy ahead. 🎉</p>
   <p>Wishing you more days of happiness and God's grace, and more years of our friendship.</p>
   <div class="signature">Happy Birthday, Janeey. 🎈</div>
 </section>
 
 <section class="reasons">
-  <h2>A few things I'm <span>glad about</span></h2>
+  <h2>A few things I'm <span>glad about.</span></h2>
   <div class="grid">
     <div class="reason-card">
       <span class="emoji">🎒</span>
@@ -364,13 +403,18 @@
     <div class="reason-card">
       <span class="emoji">💬</span>
       <h3>Picking it back up</h3>
-      <p>Although we did not talk almost at all after primary school throughout our high school but I'm glad of how we started the talks again and now the vibe is superb. Sometimes I just go through the chats and just laugh alone 😂. Just happy for that.</p>
+      <p>Although we did not talk almost at all after primary school and throughout our high school but I'm glad of how we started the talks again and now the vibe is superb. Sometimes I just go through the chats and just laugh alone 😂. Just happy for that.</p>
     </div>
     <div class="reason-card">
       <span class="emoji">😂</span>
-      <h3>Your vibe in chats😂</h3>
+      <h3>Jokes😂</h3>
       <p>Every chat comes loaded with laughing emojis, somehow you make texting feel like actually laughing out loud. And also the way you play along in some of un serious stuffs e.g. the one of marriage was such a good experience.😂😂</p>
     </div>
+	<div class="reason-card">
+	  <span class="emoji">😊</span>
+	  <h3>Shared moments</h3>
+	  <p>I still recall the day we went for a hangout to Thika. It was such a good and an amaizing experience for having the chance to spend time and enjoy the moments with you and it was sad seeing the day come to an end. I just wish for more of such moments. 😊</p>
+	</div>  
     <div class="reason-card">
       <span class="emoji">🔮</span>
       <h3>More to come</h3>
@@ -379,10 +423,19 @@
   </div>
 </section>
 
+<section class='gallery'>
+ <h2>My best moments with you.</h2>
+ <div class="gallery-grid">
+	<img src="img1.jpg" alt="My Photo">
+	<img src="img2.jpg" alt="My Photo">
+	<img src="img3.jpg" alt="My Photo">
+ </div>
+</section> 
+	
 <footer>
   <div class="cake">🎂</div>
   <p>Here's to you, Janeey.</p>
-  <p>From you friend (Former Husband 😁), Lewis. </p>
+  <p>From you friend, Lewis. </p>
   <span>Made with love for your big day. Wishing you a happy happy birthday to you and more years of happiness, joy and of God's Blessings and more memories together.</span>
 </footer>
 
