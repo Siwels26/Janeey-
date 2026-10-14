@@ -671,100 +671,20 @@ window.addEventListener('load', () => {
   setTimeout(() => burst(window.innerWidth / 2, window.innerHeight / 3, 100), 500);
 });
 
-// ---------- Background music (original, generated, no copyrighted material) ----------
-let audioCtx = null;
-let musicPlaying = false;
-let musicTimeouts = [];
-let masterGain = null;
-
-// Simple cheerful original melody, written as [note, beat-length] pairs.
-// Note names map to frequencies below; 'r' = rest.
-const melody = [
-  ['C5', 0.5], ['E5', 0.5], ['G5', 0.5], ['E5', 0.5],
-  ['F5', 0.5], ['A5', 0.5], ['G5', 1],
-  ['E5', 0.5], ['G5', 0.5], ['C6', 0.5], ['G5', 0.5],
-  ['A5', 0.5], ['F5', 0.5], ['E5', 1],
-  ['D5', 0.5], ['F5', 0.5], ['A5', 0.5], ['G5', 0.5],
-  ['E5', 0.5], ['C5', 0.5], ['D5', 1],
-  ['C5', 0.5], ['E5', 0.5], ['G5', 0.5], ['C6', 0.5],
-  ['G5', 0.5], ['E5', 0.5], ['C5', 1.5],
-];
-
-const noteFreq = {
-  'C5': 523.25, 'D5': 587.33, 'E5': 659.25, 'F5': 698.46,
-  'G5': 783.99, 'A5': 880.00, 'B5': 987.77, 'C6': 1046.50
-};
-
-const beatDuration = 0.34; // seconds per beat unit
-
-function playNote(freq, startTime, duration) {
-  const osc = audioCtx.createOscillator();
-  const noteGain = audioCtx.createGain();
-  osc.type = 'sine';
-  osc.frequency.value = freq;
-  osc.connect(noteGain);
-  noteGain.connect(masterGain);
-
-  const attack = 0.02;
-  const release = duration * 0.5;
-  noteGain.gain.setValueAtTime(0, startTime);
-  noteGain.gain.linearRampToValueAtTime(0.22, startTime + attack);
-  noteGain.gain.linearRampToValueAtTime(0, startTime + duration - 0.01);
-
-  osc.start(startTime);
-  osc.stop(startTime + duration);
-}
-
-function scheduleLoop() {
-  if (!musicPlaying) return;
-  let t = audioCtx.currentTime + 0.05;
-  const loopStart = t;
-  let totalBeats = 0;
-
-  melody.forEach(([note, beats]) => {
-    const dur = beats * beatDuration;
-    if (note !== 'r') {
-      playNote(noteFreq[note], t, dur * 0.92);
-    }
-    t += dur;
-    totalBeats += beats;
-  });
-
-  const loopLength = totalBeats * beatDuration;
-  const timeoutId = setTimeout(() => {
-    if (musicPlaying) scheduleLoop();
-  }, loopLength * 1000);
-  musicTimeouts.push(timeoutId);
-}
-
-function startMusic() {
-  if (!audioCtx) {
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    masterGain = audioCtx.createGain();
-    masterGain.gain.value = 0.5;
-    masterGain.connect(audioCtx.destination);
-  }
-  if (audioCtx.state === 'suspended') audioCtx.resume();
-  musicPlaying = true;
-  scheduleLoop();
-}
-
-function stopMusic() {
-  musicPlaying = false;
-  musicTimeouts.forEach(id => clearTimeout(id));
-  musicTimeouts = [];
-}
+	// ---------- Background music ----------
+const bgMusic = document.getElementById('bgMusic');
+bgMusic.volume = 0.5;
 
 const musicBtn = document.getElementById('musicBtn');
 musicBtn.addEventListener('click', () => {
-  if (musicPlaying) {
-    stopMusic();
-    musicBtn.textContent = '🔇 Play music';
-    musicBtn.classList.remove('playing');
-  } else {
-    startMusic();
+  if (bgMusic.paused) {
+    bgMusic.play();
     musicBtn.textContent = '🔊 Pause music';
     musicBtn.classList.add('playing');
+  } else {
+    bgMusic.pause();
+    musicBtn.textContent = '🔇 Play music';
+    musicBtn.classList.remove('playing');
   }
 });
 </script>
